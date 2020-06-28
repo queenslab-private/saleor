@@ -5,7 +5,7 @@ metadata:
 data:
   ALLOWED_CLIENT_HOSTS: ###ALLOWED_CLIENT_HOSTS###
   DATABASE_URL: ###DATABASE_URL###
-  SECRET_KEY: ###SECRET_KEY###
+  SECRET_KEY: ###SECRET###
 ---
 
 apiVersion: apps/v1
