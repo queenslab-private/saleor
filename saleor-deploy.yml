@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: saleor-secret
+data:
+  ALLOWED_CLIENT_HOSTS: ###ALLOWED_CLIENT_HOSTS###
+  DATABASE_URL: ###DATABASE_URL###
+  SECRET_KEY: ###SECRET_KEY###
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: saleor-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: saleor-api
+  template:
+    metadata:
+      labels:
+        app: saleor-api
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+      containers:
+        - name: saleor-api
+          image: qlsandboxcr.azurecr.io/saleor:###Build_BuildId###
+          envFrom:
+            - secretRef:
+                name: saleor-secret
+          resources:
+            requests:
+              cpu: 1
+              memory: 512Mi
+            limits:
+              cpu: 2
+              memory: 1Gi
+          ports:
+            - containerPort: 8000
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: saleor-api-service
+spec:
+  ports:
+    - port: 8888
+      protocol: TCP
+      targetPort: 8000
+  selector:
+    app: saleor-api
+  type: ClusterIP
+---

@@ -37,3 +37,17 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
+
+- stage: Publish
+    displayName: Publish manifests
+    jobs:
+      - job: Publish
+        displayName: Publish Artifacts
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: PublishBuildArtifacts@1
+            inputs:
+              PathtoPublish: '$(Build.SourcesDirectory)/saleor-deploy.yml'
+              ArtifactName: 'drop'
+              publishLocation: 'Container'
