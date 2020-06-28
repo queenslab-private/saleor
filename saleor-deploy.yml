@@ -7,6 +7,7 @@ data:
   DATABASE_URL: ###DATABASE_URL###
   SECRET_KEY: ###SECRET###
   ALLOWED_HOSTS: ###ALLOWED_HOSTS###
+  DEBUG: ###DEBUG_ON###
 ---
 
 apiVersion: apps/v1
